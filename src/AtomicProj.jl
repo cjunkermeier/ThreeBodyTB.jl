@@ -295,7 +295,13 @@ function run_nscf(dft, directory; tmpdir="./", nprocs=1, prefix="qe", min_nscf=f
             println("gunzipped $tounzip")
             
         end
-        
+        if isfile("$olddir/charge-density.hdf5")
+            cp("$olddir/charge-density.hdf5", "$nscfdir/charge-density.hdf5" )
+            tounzip = "$nscfdir/charge-density.hdf5"
+            command = `gunzip $tounzip`
+            s = read(command, String)
+            println("gunzipped $tounzip")
+        end 
         
     catch
         println("missing charge density or xml file, cannot run nscf")
